@@ -1,0 +1,96 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Twilio SMS API",
+    "description": "API for sending SMS messages via Twilio.",
+    "version": "v1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.twilio.com/2010-04-01"
+    }
+  ],
+  "paths": {
+    "/Accounts/{AccountSid}/Messages.json": {
+      "post": {
+        "description": "Send an SMS message",
+        "operationId": "SendSms",
+        "parameters": [
+          {
+            "name": "AccountSid",
+            "in": "path",
+            "description": "Your Twilio Account SID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Parameters for sending an SMS",
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/SendSmsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Message sent successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SendSmsRequest": {
+        "type": "object",
+        "properties": {
+          "From": {
+            "type": "string",
+            "description": "The sender's phone number"
+          },
+          "To": {
+            "type": "string",
+            "description": "The recipient's phone number"
+          },
+          "Body": {
+            "type": "string",
+            "description": "The message content"
+          }
+        },
+        "required": [
+          "From",
+          "To",
+          "Body"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ]
+}
